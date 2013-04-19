@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" additionalparam=" -encoding &quot;utf-8&quot; -charset &quot;utf-8&quot; -link http://java.sun.com/javase/ja/6/docs/ja/api &#13;&#10;" author="true" classpath="libs/android-support-v4.jar" destdir="doc" doctitle="ApplicationManagerSDK" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.6" sourcefiles="src/com/primitive/applicationmanager/datagram/Resource.java" sourcepath="src;gen" splitindex="true" use="true" version="true">
+            <link href="file:/C:/ProgramData/adt-bundle-windows-x86_64-20130219/docs/reference"/>
+            <link href="file:/C:/Users/xxx/.workspace/ApplicationManager/doc/"/>
+        </javadoc>
+    </target>
+</project>
