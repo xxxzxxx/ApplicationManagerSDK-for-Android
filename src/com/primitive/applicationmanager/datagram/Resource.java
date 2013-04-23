@@ -20,13 +20,13 @@ import com.primitive.applicationmanager.helper.Logger;
 public class Resource extends ApplicationManagerDatagram {
 	/** serialVersionUID */
 	private static final long serialVersionUID = 3771028588981515330L;
-	private static final String Copyright = "copyright";
+	private static final String Extra = "extra";
 	private static final String Description = "description";
 	private static final String Title = "title";
 	private static final String Locale = "locale";
 	private static final String[] TAGs = {
 		ApplicationManagerDatagram.Id, 
-		Resource.Copyright,
+		Resource.Extra,
 		Resource.Description, 
 		Resource.Title, 
 		Resource.Locale, 
@@ -58,9 +58,9 @@ public class Resource extends ApplicationManagerDatagram {
 	 * I will return the value that is set to Resource.Copyright tag
 	 * @return String
 	 */
-	public String getCopyright() {
+	public String getExtra() {
 		Logger.start();
-		return super.getString(Resource.Copyright);
+		return super.getString(Resource.Extra);
 	}
 
 	/**
