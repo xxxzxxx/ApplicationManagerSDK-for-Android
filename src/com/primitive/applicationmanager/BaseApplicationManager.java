@@ -10,6 +10,7 @@
 package com.primitive.applicationmanager;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -83,19 +84,20 @@ public class BaseApplicationManager implements Serializable {
 	 * @throws ApplicationManagerException
 	 */
 	protected JSONObject requestToResponse(final String argUrl,
-			final Map<String, String> argParams)
+			Map<String, String> argParams)
 			throws ApplicationManagerException {
 		Logger.start();
 		Logger.debug("argUrl:" + argUrl);
-		if (argParams != null) {
-			Logger.debug("argParams:" + argParams.toString());
-			argParams.put("device", "android");
-			if (BuildConfig.DEBUG) {
-				argParams.put("mode", "debug");
-			}
-		} else {
-			Logger.debug("argParams:is null");
+		if(argParams == null){
+			argParams = new HashMap<String,String>();
 		}
+		Logger.debug("argParams:" + argParams.toString());
+		argParams.put("device", "android");
+		if (BuildConfig.DEBUG) {
+			argParams.put("mode", "debug");
+		}
+		argParams.put("protocolVersion", config.protocolVersion.version);
+
 		final HttpClient httpClient = this.createHttpClient();
 		String res = null;
 		try {
