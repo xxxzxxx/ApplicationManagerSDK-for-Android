@@ -38,14 +38,6 @@ public class ServerConfig {
 		}
 	};
 
-	/**
-	 * Version
-	 * @return Version
-	 */
-	public enum Version {
-		v1
-	};
-
 	/** Domain */
 	final String domain;
 	/** PassPhrase */
@@ -62,13 +54,12 @@ public class ServerConfig {
 	 * ServerConfig
 	 * @param domain
 	 * @param protocol
-	 * @param version
 	 * @param passPhrase
 	 * @param cacheDir
 	 */
-	public ServerConfig(final String domain, 
+	public ServerConfig(
+			final String domain, 
 			final Protocol protocol,
-			final Version version, 
 			final String passPhrase,
 			final File cacheDir) {
 		this.domain = domain;
@@ -81,12 +72,12 @@ public class ServerConfig {
 	 * ServerConfig
 	 * @param domain
 	 * @param protocol
-	 * @param version
 	 * @param passPhrase
 	 * @param cacheDir
 	 * @param protocolVersion
 	 */
-	public ServerConfig(final String domain, 
+	public ServerConfig(
+			final String domain, 
 			final Protocol protocol,
 			final String passPhrase,
 			final File cacheDir, 

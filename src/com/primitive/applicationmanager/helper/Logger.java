@@ -34,8 +34,8 @@ public class Logger {
 		}
 	}
 
-	private static Level LogLevel = BuildConfig.DEBUG 
-			? Level.Error 
+	private static Level LogLevel = BuildConfig.DEBUG == true
+			? Level.Trace 
 			: Level.Error;
 
 	public static void start() {
