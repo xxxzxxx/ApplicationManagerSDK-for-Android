@@ -12,7 +12,7 @@ package com.primitive.applicationmanager.datagram;
 
 import org.json.JSONObject;
 
-import com.primitive.applicationmanager.helper.Logger;
+import com.primitive.library.helper.Logger;
 
 /**
  * Resource

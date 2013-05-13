@@ -19,7 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.primitive.applicationmanager.ApplicationManager;
-import com.primitive.applicationmanager.helper.Logger;
+import com.primitive.library.helper.Logger;
 
 /**
  * Package
