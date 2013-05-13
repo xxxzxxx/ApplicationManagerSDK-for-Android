@@ -11,7 +11,7 @@ package com.primitive.applicationmanager;
 
 import java.io.File;
 
-import com.primitive.applicationmanager.helper.Logger;
+import com.primitive.library.helper.Logger;
 
 /**
  * ServerConfig

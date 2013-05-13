@@ -31,9 +31,10 @@ import org.json.JSONObject;
 import com.primitive.applicationmanager.datagram.ApplicationSummary;
 import com.primitive.applicationmanager.datagram.Package;
 import com.primitive.applicationmanager.exception.ApplicationManagerException;
-import com.primitive.applicationmanager.helper.CipherHelper;
-import com.primitive.applicationmanager.helper.DateUtility;
-import com.primitive.applicationmanager.helper.Logger;
+import com.primitive.library.helper.cipher.HashHelper;
+import com.primitive.library.helper.cipher.CipherHelper;
+import com.primitive.library.helper.DateUtility;
+import com.primitive.library.helper.Logger;
 
 /**
  * ApplicationManager
@@ -174,7 +175,7 @@ public class ApplicationManager extends BaseApplicationManager {
 			Logger.debug(hash);
 			final String result = json.getString("result");
 			Logger.debug(result);
-			final String passphrase = CipherHelper.requestSha256HMAC(this.config.passPhrase, hash);
+			final String passphrase = HashHelper.requestHMACSha256(this.config.passPhrase, hash);
 			Logger.debug(passphrase);
 
 			final String decriptData = CipherHelper.decryptAES256(
@@ -246,7 +247,7 @@ public class ApplicationManager extends BaseApplicationManager {
 			final String secret = summary.getSecret();
 			final String hash = json.getString("hash");
 			final String result = json.getString("result");
-			final String passphrase = CipherHelper.requestSha256HMAC(
+			final String passphrase = HashHelper.requestHMACSha256(
 					secret,
 					hash
 					);
