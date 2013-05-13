@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ApplicationManager" default="help">
-	<echo message="${ant.project.name}"/>
-	<echo message="${build}"/>
   <property file="local.properties" />
   <property file="ant.properties" />
   <property environment="env" />
-
   <condition property="sdk.dir" value="${env.ANDROID_HOME}">
       <isset property="env.ANDROID_HOME" />
   </condition>
