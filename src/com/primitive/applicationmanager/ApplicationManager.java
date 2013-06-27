@@ -1,6 +1,6 @@
 /**
  * ApplicationManager
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -31,8 +31,11 @@ import org.json.JSONObject;
 import com.primitive.applicationmanager.datagram.ApplicationSummary;
 import com.primitive.applicationmanager.datagram.Package;
 import com.primitive.applicationmanager.exception.ApplicationManagerException;
+import com.primitive.library.helper.cipher.CipherHelper.Mode;
+import com.primitive.library.helper.cipher.CipherHelper.Padding;
 import com.primitive.library.helper.cipher.HashHelper;
 import com.primitive.library.helper.cipher.CipherHelper;
+import com.primitive.library.helper.cipher.CipherHelper.Algorithm;
 import com.primitive.library.helper.DateUtility;
 import com.primitive.library.helper.Logger;
 
@@ -45,7 +48,7 @@ public class ApplicationManager extends BaseApplicationManager {
 	private static String ApplicationURI = "api/application";
 	private static String TimeStampURI = "api/timestamp";
 	private static String PackagesURI = "api/packages";
-	
+
 	/**
 	 * 静的インスタンスを生成し返却します。
 	 * @param applicationID
@@ -175,14 +178,24 @@ public class ApplicationManager extends BaseApplicationManager {
 			Logger.debug(hash);
 			final String result = json.getString("result");
 			Logger.debug(result);
-			final String passphrase = HashHelper.requestHMACSha256(this.config.passPhrase, hash);
+			final String passphrase = HashHelper.getHMACBase64(
+					com.primitive.library.helper.cipher.HashHelper.Algorithm.HmacSHA256,
+					hash,
+					this.config.passPhrase,
+					"UTF-8");
 			Logger.debug(passphrase);
 
-			final String decriptData = CipherHelper.decryptAES256(
+			final byte[] decriptDataByte = CipherHelper.decrypt(
+					Algorithm.AES,
+					Mode.CBC,
+					Padding.PKCS7Padding,
 					result,
+					hash,
 					passphrase,
-					hash
+					256/8,
+					"UTF-8"
 				);
+			final String decriptData = new String(decriptDataByte,"UTF-8");
 
 			final JSONObject decript = new JSONObject(decriptData);
 			final ApplicationSummary summary = new ApplicationSummary(decript);
@@ -247,15 +260,24 @@ public class ApplicationManager extends BaseApplicationManager {
 			final String secret = summary.getSecret();
 			final String hash = json.getString("hash");
 			final String result = json.getString("result");
-			final String passphrase = HashHelper.requestHMACSha256(
+			final String passphrase = HashHelper.getHMACBase64(
+					com.primitive.library.helper.cipher.HashHelper.Algorithm.HmacSHA256,
+					hash,
 					secret,
-					hash
-					);
-			final String decriptData = CipherHelper.decryptAES256(
+					"UTF-8");
+
+			final byte[] decriptDataByte = CipherHelper.decrypt(
+					Algorithm.AES,
+					Mode.CBC,
+					Padding.PKCS7Padding,
 					result,
+					hash,
 					passphrase,
-					hash
-					);
+					256/8,
+					"UTF-8"
+				);
+			final String decriptData = new String(decriptDataByte,"UTF-8");
+
 			Logger.debug(decriptData);
 			final JSONObject decript = new JSONObject(decriptData);
 			final JSONArray packagesJSON = decript.getJSONArray("packages");
