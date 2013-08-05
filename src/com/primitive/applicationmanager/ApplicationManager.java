@@ -10,9 +10,6 @@
 package com.primitive.applicationmanager;
 
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,24 +17,22 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Base64;
+
 import com.primitive.applicationmanager.datagram.ApplicationSummary;
 import com.primitive.applicationmanager.datagram.Package;
 import com.primitive.applicationmanager.exception.ApplicationManagerException;
+import com.primitive.library.common.log.Logger;
+import com.primitive.library.helper.DateUtility;
+import com.primitive.library.helper.cipher.CipherHelper;
 import com.primitive.library.helper.cipher.CipherHelper.Mode;
 import com.primitive.library.helper.cipher.CipherHelper.Padding;
-import com.primitive.library.helper.cipher.HashHelper;
-import com.primitive.library.helper.cipher.CipherHelper;
-import com.primitive.library.helper.cipher.CipherHelper.Algorithm;
-import com.primitive.library.helper.DateUtility;
-import com.primitive.library.helper.Logger;
+import com.primitive.library.helper.cipher.HashMacHelper;
+import com.primitive.library.helper.cipher.exception.CipherException;
 
 /**
  * ApplicationManager
@@ -161,8 +156,7 @@ public class ApplicationManager extends BaseApplicationManager {
 	 * @return ApplicationSummary
 	 * @throws ApplicationManagerException
 	 */
-	private ApplicationSummary requestApplicationSummary()
-			throws ApplicationManagerException {
+	private ApplicationSummary requestApplicationSummary() throws ApplicationManagerException {
 		Logger.start();
 		final String url = this.config
 				.buildServerURL(ApplicationManager.ApplicationURI);
@@ -175,26 +169,25 @@ public class ApplicationManager extends BaseApplicationManager {
 				return this.beforeSummary;
 			}
 			final String hash = json.getString("hash");
-			Logger.debug(hash);
 			final String result = json.getString("result");
-			Logger.debug(result);
-			final String passphrase = HashHelper.getHMACBase64(
-					com.primitive.library.helper.cipher.HashHelper.Algorithm.HmacSHA256,
-					hash,
-					this.config.passPhrase,
-					"UTF-8");
-			Logger.debug(passphrase);
+			final String passphrase = HashMacHelper.getHMACBase64(
+					HashMacHelper.Algorithm.HmacSHA256,
+					hash.getBytes("UTF-8"),
+					this.config.passPhrase.getBytes("UTF-8")
+					);
+
+			byte[] passPhraseBytes = new byte[256/8];
+			System.arraycopy(passphrase.getBytes(), 0, passPhraseBytes, 0, 256/8);
 
 			final byte[] decriptDataByte = CipherHelper.decrypt(
-					Algorithm.AES,
+					CipherHelper.Algorithm.AES,
 					Mode.CBC,
 					Padding.PKCS7Padding,
-					result,
-					hash,
-					passphrase,
-					256/8,
-					"UTF-8"
+					Base64.decode(result.getBytes("UTF-8"),Base64.DEFAULT),
+					hash.getBytes("UTF-8"),
+					passPhraseBytes
 				);
+
 			final String decriptData = new String(decriptDataByte,"UTF-8");
 
 			final JSONObject decript = new JSONObject(decriptData);
@@ -205,19 +198,9 @@ public class ApplicationManager extends BaseApplicationManager {
 			this.beforeSummary = summary;
 		} catch (final JSONException ex) {
 			Logger.err(ex);
-		} catch (final InvalidKeyException ex) {
-			Logger.err(ex);
-		} catch (final NoSuchAlgorithmException ex) {
-			Logger.err(ex);
-		} catch (final NoSuchPaddingException ex) {
-			Logger.err(ex);
-		} catch (final InvalidAlgorithmParameterException ex) {
-			Logger.err(ex);
-		} catch (final IllegalBlockSizeException ex) {
-			Logger.err(ex);
-		} catch (final BadPaddingException ex) {
-			Logger.err(ex);
 		} catch (final UnsupportedEncodingException ex) {
+			Logger.err(ex);
+		} catch (CipherException ex) {
 			Logger.err(ex);
 		}
 		return this.beforeSummary;
@@ -248,8 +231,6 @@ public class ApplicationManager extends BaseApplicationManager {
 		final Map<String, String> params = new HashMap<String, String>();
 		params.put("name", applicationName);
 		params.put("application", applicationID);
-		Logger.debug(Locale.getDefault().getCountry());
-		Logger.debug(Locale.getDefault().getLanguage());
 		params.put("region", Locale.getDefault().getCountry());
 		final JSONObject json = super.requestToResponse(url, params);
 		try {
@@ -260,25 +241,25 @@ public class ApplicationManager extends BaseApplicationManager {
 			final String secret = summary.getSecret();
 			final String hash = json.getString("hash");
 			final String result = json.getString("result");
-			final String passphrase = HashHelper.getHMACBase64(
-					com.primitive.library.helper.cipher.HashHelper.Algorithm.HmacSHA256,
-					hash,
-					secret,
-					"UTF-8");
+			final String passphrase = HashMacHelper.getHMACBase64(
+					HashMacHelper.Algorithm.HmacSHA256,
+					hash.getBytes("UTF-8"),
+					secret.getBytes("UTF-8")
+				);
+
+			byte[] passPhraseBytes = new byte[256/8];
+			System.arraycopy(passphrase.getBytes(), 0, passPhraseBytes, 0, 256/8);
 
 			final byte[] decriptDataByte = CipherHelper.decrypt(
-					Algorithm.AES,
+					CipherHelper.Algorithm.AES,
 					Mode.CBC,
 					Padding.PKCS7Padding,
-					result,
-					hash,
-					passphrase,
-					256/8,
-					"UTF-8"
+					Base64.decode(result.getBytes("UTF-8"),Base64.DEFAULT),
+					hash.getBytes("UTF-8"),
+					passPhraseBytes
 				);
 			final String decriptData = new String(decriptDataByte,"UTF-8");
 
-			Logger.debug(decriptData);
 			final JSONObject decript = new JSONObject(decriptData);
 			final JSONArray packagesJSON = decript.getJSONArray("packages");
 			final ArrayList<Package> packages = new ArrayList<Package>();
@@ -291,19 +272,9 @@ public class ApplicationManager extends BaseApplicationManager {
 			this.beforePackages = packages.toArray(new Package[]{});
 		} catch (final JSONException ex) {
 			Logger.err(ex);
-		} catch (final InvalidKeyException ex) {
-			Logger.err(ex);
-		} catch (final NoSuchAlgorithmException ex) {
-			Logger.err(ex);
-		} catch (final NoSuchPaddingException ex) {
-			Logger.err(ex);
-		} catch (final InvalidAlgorithmParameterException ex) {
-			Logger.err(ex);
-		} catch (final IllegalBlockSizeException ex) {
-			Logger.err(ex);
-		} catch (final BadPaddingException ex) {
-			Logger.err(ex);
 		} catch (final UnsupportedEncodingException ex) {
+			Logger.err(ex);
+		} catch (CipherException ex) {
 			Logger.err(ex);
 		}
 		return this.beforePackages;

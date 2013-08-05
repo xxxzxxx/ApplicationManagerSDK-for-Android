@@ -1,6 +1,6 @@
 /**
  * PackageType
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -11,7 +11,7 @@ package com.primitive.applicationmanager.datagram;
 
 import org.json.JSONObject;
 
-import com.primitive.library.helper.Logger;
+import com.primitive.library.common.log.Logger;
 
 /**
  * PackageType
@@ -20,9 +20,9 @@ public class PackageType extends ApplicationManagerDatagram {
 	/** serialVersionUID */
 	private static final long serialVersionUID = -2753755409836691022L;
 	private static final String Value = "value";
-	private static final String[] TAGs = { 
-		ApplicationManagerDatagram.Id, 
-		PackageType.Value, 
+	private static final String[] TAGs = {
+		ApplicationManagerDatagram.Id,
+		PackageType.Value,
 	};
 
 	/**

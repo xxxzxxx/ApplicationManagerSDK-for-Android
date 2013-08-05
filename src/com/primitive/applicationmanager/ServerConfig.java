@@ -1,6 +1,6 @@
 /**
  * ServerConfig
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -11,7 +11,7 @@ package com.primitive.applicationmanager;
 
 import java.io.File;
 
-import com.primitive.library.helper.Logger;
+import com.primitive.library.common.log.Logger;
 
 /**
  * ServerConfig
@@ -58,7 +58,7 @@ public class ServerConfig {
 	 * @param cacheDir
 	 */
 	public ServerConfig(
-			final String domain, 
+			final String domain,
 			final Protocol protocol,
 			final String passPhrase,
 			final File cacheDir) {
@@ -77,10 +77,10 @@ public class ServerConfig {
 	 * @param protocolVersion
 	 */
 	public ServerConfig(
-			final String domain, 
+			final String domain,
 			final Protocol protocol,
 			final String passPhrase,
-			final File cacheDir, 
+			final File cacheDir,
 			final ProtocolVersion protocolVersion) {
 		this.domain = domain;
 		this.protocol = protocol;
@@ -91,7 +91,7 @@ public class ServerConfig {
 
 	/**
 	 * buildServerURL
-	 * 
+	 *
 	 * @param argUri
 	 * @return String
 	 */

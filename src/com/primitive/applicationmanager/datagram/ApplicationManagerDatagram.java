@@ -1,6 +1,6 @@
 /**
  * ApplicationManagerDatagram
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -17,7 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.primitive.library.helper.DateUtility;
-import com.primitive.library.helper.Logger;
+import com.primitive.library.common.log.Logger;
 
 /**
  * ApplicationManagerDatagram
