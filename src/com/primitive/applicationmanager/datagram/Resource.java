@@ -1,6 +1,6 @@
 /**
  * Resource
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -12,7 +12,7 @@ package com.primitive.applicationmanager.datagram;
 
 import org.json.JSONObject;
 
-import com.primitive.library.helper.Logger;
+import com.primitive.library.common.log.Logger;
 
 /**
  * Resource
@@ -25,11 +25,11 @@ public class Resource extends ApplicationManagerDatagram {
 	private static final String Title = "title";
 	private static final String Locale = "locale";
 	private static final String[] TAGs = {
-		ApplicationManagerDatagram.Id, 
+		ApplicationManagerDatagram.Id,
 		Resource.Extra,
-		Resource.Description, 
-		Resource.Title, 
-		Resource.Locale, 
+		Resource.Description,
+		Resource.Title,
+		Resource.Locale,
 	};
 
 	/**

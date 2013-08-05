@@ -1,6 +1,6 @@
 /**
  * BaseApplicationManager
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -26,7 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.primitive.applicationmanager.exception.ApplicationManagerException;
-import com.primitive.library.helper.Logger;
+import com.primitive.library.common.log.Logger;
 
 /**
  * BaseApplicationManager
@@ -49,7 +49,7 @@ public class BaseApplicationManager implements Serializable {
 			final Map.Entry<String, String> pairs = (Map.Entry<String, String>) iter.next();
 			final String key = (String) pairs.getKey();
 			final String value = (String) pairs.getValue();
-			
+
 			holder.put(key, value);
 		}
 		return holder;

@@ -1,6 +1,6 @@
 /**
  * ApplicationSummary
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -15,7 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.primitive.library.helper.Logger;
+import com.primitive.library.common.log.Logger;
 
 /**
  * ApplicationSummary
@@ -35,11 +35,11 @@ public class ApplicationSummary extends ApplicationManagerDatagram {
 	/**
 	 * defined tag list
 	 */
-	private static final String[] TAGs = { 
+	private static final String[] TAGs = {
 		ApplicationManagerDatagram.Id,
-		ApplicationSummary.Version, 
+		ApplicationSummary.Version,
 		ApplicationSummary.Name,
-		ApplicationSummary.Secret, 
+		ApplicationSummary.Secret,
 		ApplicationSummary.PackageTypes,
 	};
 

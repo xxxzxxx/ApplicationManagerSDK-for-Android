@@ -1,6 +1,6 @@
 /**
  * Package
- * 
+ *
  * @license Dual licensed under the MIT or GPL Version 2 licenses.
  * @author xxxzxxx
  * Copyright 2013, Primitive, inc.
@@ -19,7 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.primitive.applicationmanager.ApplicationManager;
-import com.primitive.library.helper.Logger;
+import com.primitive.library.common.log.Logger;
 
 /**
  * Package
@@ -40,19 +40,19 @@ public class Package extends ApplicationManagerDatagram {
 	private static final String Resources = "resources";
 	private static final String Pay = "pay";
 	private static final String Free = "free";
-	private static final String[] TAGs = { 
-		ApplicationManagerDatagram.Id, 
+	private static final String[] TAGs = {
+		ApplicationManagerDatagram.Id,
 		Package.Name,
-		Package.Application, 
-		Package.EnableDate, 
+		Package.Application,
+		Package.EnableDate,
 		Package.ExpirationDate,
-		Package.Preference, 
-		Package.Sale, 
-		Package.Type, 
+		Package.Preference,
+		Package.Sale,
+		Package.Type,
 		Package.CreateAt,
-		Package.UpdateAt, 
-		Package.Resources, 
-		Package.Pay, 
+		Package.UpdateAt,
+		Package.Resources,
+		Package.Pay,
 		Package.Free,
 	};
 	private final ArrayList<Resource> resources = new ArrayList<Resource>();
